@@ -2,20 +2,23 @@ package baseball;
 
 import java.util.*;
 
-public class UserNumber extends Number {
+//같은 패키지 내에서만 접근 가능한 default class
+class UserNumber extends Number {
     int number = getUserNumberWithValidation();
 
+    //같은 패키지 내에서만 접근 가능한 default getter
     List<Integer> getUserNumber() {
         return splitDigitsToArray(number);
     }
 
-    int scanUserInput() {
+    // UserNumber 클래스 내에서만 사용하는 메서드들은 private!
+    private int scanUserInput() {
         System.out.print("숫자를 입력하세요 : ");
-        Scanner userNumber = new Scanner(System.in);
-        return userNumber.nextInt();
+        Scanner scanUserNumber = new Scanner(System.in);
+        return scanUserNumber.nextInt();
     }
 
-    int getUserNumberWithValidation() {
+    private int getUserNumberWithValidation() throws IllegalArgumentException {
         int userNumber = scanUserInput();
         try {
             if (!isValidNumber(userNumber)) {
@@ -23,12 +26,12 @@ public class UserNumber extends Number {
             }
         } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
-            System.exit(0);
+            throw e;
+//          [문제 요구사항] System.exit() 를 사용하지 않고 종료시킬 것.
+//          => 현 메소드에서 던진 e를 Application.java 의 main 함수에서 받고 return 시킨다.
+//          => Application.java 가 종료된다.
         }
         return userNumber;
     }
 
-    boolean isValidNumber(int number) {
-        return number >= NUMBER_MIN && number <= NUMBER_MAX;
-    }
 }
