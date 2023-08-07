@@ -20,16 +20,13 @@ class UserNumber extends Number {
 
     private int getUserNumberWithValidation() throws IllegalArgumentException {
         int userNumber = scanUserInput();
-        try {
-            if (!isValidNumber(userNumber)) {
-                throw new IllegalArgumentException("잘못된 값을 입력하여 프로그램이 종료됩니다.");
-            }
-        } catch (IllegalArgumentException e) {
+        if (!isValidNumber(userNumber)) {
+//          [문제 요구사항] System.exit() 를 사용하지 않고 종료시킬 것.
+//          => 현 메소드에서 던진 e를 Application.java 의 main 함수에서 받는다.
+//          => main 함수가 종료된다.
+            IllegalArgumentException e = new IllegalArgumentException("잘못된 값을 입력하여 프로그램이 종료됩니다.");
             System.out.println(e.getMessage());
             throw e;
-//          [문제 요구사항] System.exit() 를 사용하지 않고 종료시킬 것.
-//          => 현 메소드에서 던진 e를 Application.java 의 main 함수에서 받고 return 시킨다.
-//          => Application.java 가 종료된다.
         }
         return userNumber;
     }

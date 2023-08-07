@@ -20,14 +20,19 @@ public class Game {
         gameOverORRestart();
     }
 
-    void gameStart() {
+    void printGameStartMessage() {
         System.out.println("숫자 야구 게임을 시작합니다.");
+    }
+    void printGameOverOptionMessage() {
+        System.out.printf("게임을 새로 시작하려면 %d, 종료하려면 %d를 입력하세요.\n", RESTART_OPTION ,GAMEOVER_OPTION);
+    }
+    void printThreeStrikeGameOver() {
+        System.out.println(THREE_STRIKE_GAMEOVER+"개의 숫자를 모두 맞히셨습니다! 게임 종료\n");
     }
 
     //나머지는 전부 Game 클래스 내에서만 사용하니까 private!
     private void gameOverORRestart() {
-        System.out.println(THREE_STRIKE_GAMEOVER+"개의 숫자를 모두 맞히셨습니다! 게임 종료\n");
-        System.out.printf("게임을 새로 시작하려면 %d, 종료하려면 %d를 입력하세요.\n", RESTART_OPTION ,GAMEOVER_OPTION);
+        printGameOverOptionMessage();
         Scanner scanUserRestartOption = new Scanner(System.in);
         switch (scanUserRestartOption.nextInt()) {
             case RESTART_OPTION :
@@ -36,10 +41,12 @@ public class Game {
                 break;
             case GAMEOVER_OPTION :
                 break;
+            default :
+                System.out.println("잘못 입력하셨습니다.");
+                gameOverORRestart();
         }
 
     }
-
 
     //userNumber 스캐너, 결과 출력 반복
     private void scanUserNumberAndPrintResult (List<Integer> computerNumber) {
@@ -53,6 +60,7 @@ public class Game {
             }
             printBallAndStrike();
         } while (!isThreeStrike());
+        printThreeStrikeGameOver();
     }
 
     //볼,스트라이크 출력
